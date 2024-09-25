@@ -1,4 +1,8 @@
 package io.medsys.opteamer.model.enums;
 
-public class AssetType {
+public enum AssetType {
+    SURGICAL_INSTRUMENT,
+    MACHINE,
+    EQUIPMENT,
+    OTHER_ESSENTIAL_TOOL
 }

@@ -19,6 +19,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/assets").permitAll()
                         .requestMatchers("/api/assets/**").permitAll()
+                        .requestMatchers("/api/inventories").permitAll()
+                        .requestMatchers("/api/inventories/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout((logout) -> logout.permitAll());

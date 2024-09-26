@@ -21,6 +21,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/assets/**").permitAll()
                         .requestMatchers("/api/inventories").permitAll()
                         .requestMatchers("/api/inventories/**").permitAll()
+                        .requestMatchers("/api//api/pre-operative-assessments").permitAll()
+                        .requestMatchers("/api//api/pre-operative-assessments/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout((logout) -> logout.permitAll());

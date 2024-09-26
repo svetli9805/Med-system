@@ -14,5 +14,5 @@ import lombok.Setter;
 @Setter
 public class PreOperativeAssessment {
     @Id
-    private Long id;
+    private String name;
 }

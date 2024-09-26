@@ -21,8 +21,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/assets/**").permitAll()
                         .requestMatchers("/api/inventories").permitAll()
                         .requestMatchers("/api/inventories/**").permitAll()
-                        .requestMatchers("/api//api/pre-operative-assessments").permitAll()
-                        .requestMatchers("/api//api/pre-operative-assessments/**").permitAll()
+                        .requestMatchers("/api/pre-operative-assessments").permitAll()
+                        .requestMatchers("/api/pre-operative-assessments/**").permitAll()
+                        .requestMatchers("/api/patients").permitAll()
+                        .requestMatchers("/api/patients/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout((logout) -> logout.permitAll());

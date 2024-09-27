@@ -27,6 +27,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/patients/**").permitAll()
                         .requestMatchers("/api/operation-providers").permitAll()
                         .requestMatchers("/api/operation-providers/**").permitAll()
+                        .requestMatchers("/api//api/operation-rooms").permitAll()
+                        .requestMatchers("/api//api/operation-rooms/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout((logout) -> logout.permitAll());

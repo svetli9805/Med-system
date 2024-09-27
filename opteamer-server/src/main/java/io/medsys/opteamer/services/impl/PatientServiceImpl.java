@@ -1,8 +1,6 @@
 package io.medsys.opteamer.services.impl;
 
-import io.medsys.opteamer.dto.AssetDTO;
 import io.medsys.opteamer.dto.PatientDTO;
-import io.medsys.opteamer.model.Asset;
 import io.medsys.opteamer.model.Patient;
 import io.medsys.opteamer.repositories.PatientRepository;
 import io.medsys.opteamer.services.PatientService;

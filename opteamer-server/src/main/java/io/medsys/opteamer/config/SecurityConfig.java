@@ -27,8 +27,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/patients/**").permitAll()
                         .requestMatchers("/api/operation-providers").permitAll()
                         .requestMatchers("/api/operation-providers/**").permitAll()
-                        .requestMatchers("/api//api/operation-rooms").permitAll()
-                        .requestMatchers("/api//api/operation-rooms/**").permitAll()
+                        .requestMatchers("/api/operation-rooms").permitAll()
+                        .requestMatchers("/api/operation-rooms/**").permitAll()
+                        .requestMatchers("/api/team-members").permitAll()
+                        .requestMatchers("/api/team-members/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout((logout) -> logout.permitAll());

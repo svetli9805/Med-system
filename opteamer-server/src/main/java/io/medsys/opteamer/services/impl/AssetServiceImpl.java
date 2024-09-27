@@ -4,6 +4,7 @@ import io.medsys.opteamer.dto.AssetDTO;
 import io.medsys.opteamer.model.Asset;
 import io.medsys.opteamer.repositories.AssetRepository;
 import io.medsys.opteamer.services.AssetService;
+import io.medsys.opteamer.utils.ModelMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public AssetDTO save(AssetDTO assetDto) {
-        Asset asset = mapDTOToEntity(assetDto);
+        Asset asset = ModelMapperUtils.mapDTOToEntity(assetDto);
         assetRepository.save(asset);
         return mapEntityToDTO(asset);
     }
@@ -66,10 +67,5 @@ public class AssetServiceImpl implements AssetService {
     private AssetDTO mapEntityToDTO(Asset asset) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(asset, AssetDTO.class);
-    }
-
-    private Asset mapDTOToEntity(AssetDTO assetDTO) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(assetDTO, Asset.class);
     }
 }

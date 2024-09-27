@@ -1,11 +1,11 @@
 package io.medsys.opteamer.services.impl;
 
 import io.medsys.opteamer.dto.OperationProviderDTO;
-import io.medsys.opteamer.model.Asset;
 import io.medsys.opteamer.model.OperationProvider;
 import io.medsys.opteamer.model.enums.OperationProviderType;
 import io.medsys.opteamer.repositories.OperationProviderRepository;
 import io.medsys.opteamer.services.OperationProviderService;
+import io.medsys.opteamer.utils.ModelMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import static io.medsys.opteamer.utils.ModelMapperUtils.mapEntityToDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +42,7 @@ public class OperationProviderServiceImpl implements OperationProviderService {
 
     @Override
     public OperationProviderDTO createOperationProvider(OperationProviderDTO operationProviderDTO) {
-        OperationProvider operationProvider = mapDTOToEntity(operationProviderDTO);
+        OperationProvider operationProvider = ModelMapperUtils.mapDTOToEntity(operationProviderDTO);
         operationProviderRepository.save(operationProvider);
         return mapEntityToDTO(operationProvider);
     }
@@ -62,15 +64,5 @@ public class OperationProviderServiceImpl implements OperationProviderService {
                     operationProviderRepository.save(operationProvider);
                     return mapEntityToDTO(operationProvider);
                 });
-    }
-
-    private OperationProviderDTO mapEntityToDTO(OperationProvider operationProvider) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(operationProvider, OperationProviderDTO.class);
-    }
-
-    private OperationProvider mapDTOToEntity(OperationProviderDTO operationProviderDTO) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(operationProviderDTO, OperationProvider.class);
     }
 }

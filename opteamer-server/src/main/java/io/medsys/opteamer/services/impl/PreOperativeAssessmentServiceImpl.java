@@ -4,6 +4,7 @@ import io.medsys.opteamer.dto.PreOperativeAssessmentDTO;
 import io.medsys.opteamer.model.PreOperativeAssessment;
 import io.medsys.opteamer.repositories.PreOperativeAssessmentRepository;
 import io.medsys.opteamer.services.PreOperativeAssessmentService;
+import io.medsys.opteamer.utils.ModelMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class PreOperativeAssessmentServiceImpl implements PreOperativeAssessment
 
     @Override
     public PreOperativeAssessmentDTO createPreOperativeAssessment(PreOperativeAssessmentDTO preOperativeAssessmentDTO) {
-        PreOperativeAssessment preOperativeAssessment = mapDTOToEntity(preOperativeAssessmentDTO);
+        PreOperativeAssessment preOperativeAssessment = ModelMapperUtils.mapDTOToEntity(preOperativeAssessmentDTO);
         preOperativeAssessmentRepository.save(preOperativeAssessment);
         return mapEntityToDTO(preOperativeAssessment);
     }
@@ -65,10 +66,5 @@ public class PreOperativeAssessmentServiceImpl implements PreOperativeAssessment
     private PreOperativeAssessmentDTO mapEntityToDTO(PreOperativeAssessment preOperativeAssessment) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(preOperativeAssessment, PreOperativeAssessmentDTO.class);
-    }
-
-    private PreOperativeAssessment mapDTOToEntity(PreOperativeAssessmentDTO preOperativeAssessmentDTO) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(preOperativeAssessmentDTO, PreOperativeAssessment.class);
     }
 }

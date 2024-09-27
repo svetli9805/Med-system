@@ -4,6 +4,7 @@ import io.medsys.opteamer.dto.PatientDTO;
 import io.medsys.opteamer.model.Patient;
 import io.medsys.opteamer.repositories.PatientRepository;
 import io.medsys.opteamer.services.PatientService;
+import io.medsys.opteamer.utils.ModelMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public PatientDTO createPatient(PatientDTO patientDTO) {
-        Patient patient = mapDTOToEntity(patientDTO);
+        Patient patient = ModelMapperUtils.mapDTOToEntity(patientDTO);
         patientRepository.save(patient);
         return mapEntityToDTO(patient);
     }
@@ -66,10 +67,5 @@ public class PatientServiceImpl implements PatientService {
     private PatientDTO mapEntityToDTO(Patient patient) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(patient, PatientDTO.class);
-    }
-
-    private Patient mapDTOToEntity(PatientDTO patientDTO) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(patientDTO, Patient.class);
     }
 }

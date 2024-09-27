@@ -4,6 +4,7 @@ import io.medsys.opteamer.dto.OperationRoomDTO;
 import io.medsys.opteamer.model.OperationRoom;
 import io.medsys.opteamer.repositories.OperationRoomRepository;
 import io.medsys.opteamer.services.OperationRoomService;
+import io.medsys.opteamer.utils.ModelMapperUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class OperationRoomServiceImpl implements OperationRoomService {
 
     @Override
     public OperationRoomDTO createOperationRoom(OperationRoomDTO operationRoomDTO) {
-        OperationRoom operationRoom = mapDTOToEntity(operationRoomDTO);
+        OperationRoom operationRoom = ModelMapperUtils.mapDTOToEntity(operationRoomDTO);
         operationRoomRepository.save(operationRoom);
         return mapEntityToDTO(operationRoom);
     }
@@ -69,10 +70,5 @@ public class OperationRoomServiceImpl implements OperationRoomService {
     private OperationRoomDTO mapEntityToDTO(OperationRoom operationRoom) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(operationRoom, OperationRoomDTO.class);
-    }
-
-    private OperationRoom mapDTOToEntity(OperationRoomDTO operationRoomDTO) {
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(operationRoomDTO, OperationRoom.class);
     }
 }

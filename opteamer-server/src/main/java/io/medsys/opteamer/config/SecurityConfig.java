@@ -35,6 +35,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/room-inventories/**").permitAll()
                         .requestMatchers("/api/operation-types").permitAll()
                         .requestMatchers("/api/operation-types/**").permitAll()
+                        .requestMatchers("/api/operations").permitAll()
+                        .requestMatchers("/api/operations/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout((logout) -> logout.permitAll());

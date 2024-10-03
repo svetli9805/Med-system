@@ -2,7 +2,7 @@ package io.medsys.opteamer.rest;
 
 import io.medsys.opteamer.dto.AssetDTO;
 import io.medsys.opteamer.services.AssetService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +13,14 @@ import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/api/assets")
-@RequiredArgsConstructor
+
 public class AssetController {
     private final AssetService assetService;
+
+    @Autowired
+    public AssetController(AssetService assetService) {
+        this.assetService = assetService;
+    }
 
     @GetMapping
     public ResponseEntity<List<AssetDTO>> getAllAssets() {

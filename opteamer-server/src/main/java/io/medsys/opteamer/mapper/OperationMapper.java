@@ -10,10 +10,6 @@ import org.mapstruct.factory.Mappers;
 public interface OperationMapper {
     OperationMapper INSTANCE = Mappers.getMapper(OperationMapper.class);
 
-    @Mapping(source = "operationType", target = "operationType")
-    @Mapping(source = "operationRoom", target = "operationRoom")
-    @Mapping(source = "patient", target = "patient")
-    @Mapping(source = "teamMembers", target = "teamMembers")
     OperationDTO toOperationDTO(Operation operation);
 
     Operation toOperation(OperationDTO operationDTO);

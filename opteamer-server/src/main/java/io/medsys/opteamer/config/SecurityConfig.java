@@ -37,6 +37,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/operation-types/**").permitAll()
                         .requestMatchers("/api/operations").permitAll()
                         .requestMatchers("/api/operations/**").permitAll()
+                        .requestMatchers("/api/operation-reports").permitAll()
+                        .requestMatchers("/api/operation-reports/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout((logout) -> logout.permitAll());

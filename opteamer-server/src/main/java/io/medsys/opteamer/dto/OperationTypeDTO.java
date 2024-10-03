@@ -17,7 +17,7 @@ public class OperationTypeDTO {
     private String name;
     private OperationRoomType roomType;
     private Integer durationHours;
-    private Set<AssetDTO> assetDTOS = new HashSet<>();
-    private Set<OperationProviderDTO> operationProviderDTOS = new HashSet<>();
-    private Set<PreOperativeAssessmentDTO> preOperativeAssessmentDTOS = new HashSet<>();
+    private Set<AssetDTO> assets = new HashSet<>();
+    private Set<OperationProviderDTO> operationProviders = new HashSet<>();
+    private Set<PreOperativeAssessmentDTO> preOperativeAssessments = new HashSet<>();
 }

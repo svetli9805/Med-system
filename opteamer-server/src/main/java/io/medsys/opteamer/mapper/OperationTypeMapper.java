@@ -10,9 +10,6 @@ import org.mapstruct.factory.Mappers;
 public interface OperationTypeMapper {
     OperationTypeMapper INSTANCE = Mappers.getMapper(OperationTypeMapper.class);
 
-    @Mapping(source = "assets", target = "assetDTOS")
-    @Mapping(source = "operationProviders", target = "operationProviderDTOS")
-    @Mapping(source = "preOperativeAssessments", target = "preOperativeAssessmentDTOS")
     OperationTypeDTO toOperationTypeDTO(OperationType operationType);
 
     OperationType toOperationType(OperationTypeDTO operationTypeDTO);

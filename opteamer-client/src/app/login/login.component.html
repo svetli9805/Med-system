@@ -4,14 +4,16 @@
         <h1 class="main-title">Login</h1>
         <div class="mb-3">
             <label for="loginEmail" class="form-label main-text-style">Email adress</label>
-            <input type="email" class="form-control text-content" id="loginEmail" placeholder="name@example.com">
+            <input type="email" class="form-control text-content" id="loginEmail" placeholder="name@example.com"
+                formControlName="email">
         </div>
         <div class="mb-3">
             <label for="loginPassword" class="form-label main-text-style">Password</label>
-            <input type="password" class="form-control text-content" id="loginPassword" placeholder="**********">
+            <input type="password" class="form-control text-content" id="loginPassword" placeholder="**********"
+                formControlName="password">
         </div>
         <div class="mb-3">
-            <button class="btn btn-primary button-color float-right" type="button">Send</button>
+            <button class="btn btn-primary button-color float-right" type="submit">Send</button>
         </div>
         <div class="text-with-link main-text-style">
             <p>If you do not have an account yet, please <a class="common-link" routerLink="/signup">sign up</a></p>

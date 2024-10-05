@@ -1,45 +1,45 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {OperationSevice} from "../services/operation.sevice";
-import {TeamMemberSevice} from "../services/teammember.sevice";
-import {PatientSevice} from "../services/patient.sevice";
-import {OperationRoomSevice} from "../services/operationroom.sevice";
-import {OperationTypeService} from "../services/operationtype.sevice";
-import {combineLatest, Observable} from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { OperationSevice } from '../services/operation.sevice';
+import { TeamMemberSevice } from '../services/teammember.sevice';
+import { PatientSevice } from '../services/patient.sevice';
+import { OperationRoomSevice } from '../services/operationroom.sevice';
+import { OperationTypeService } from '../services/operationtype.sevice';
+import { combineLatest, Observable } from 'rxjs';
+import { Operation } from './operation';
 
 @Component({
   selector: 'app-operation',
   templateUrl: './operation.component.html',
-  styleUrl: '../app.component.css'
+  styleUrls: ['../app.component.css'],
 })
 export class OperationComponent implements OnInit {
-
   operationForm!: FormGroup;
-  editedOperation:any;
+  editedOperation: any;
   modalTitle!: string;
-  operations$: any;
+  operations$: Observable<Operation[]>;
   operationTypes$: Observable<any[]>;
   operationRooms$: Observable<any[]>;
   patients$: Observable<any[]>;
   teamMembers$: Observable<any[]>;
 
-  constructor(private operationService: OperationSevice,
-              private operationTypeService: OperationTypeService,
-              private operationRoomService: OperationRoomSevice,
-              private patientService: PatientSevice,
-              private teamMemberService: TeamMemberSevice) {
-
-                this.operations$ = this.operationService.data$;
-                this.operationTypes$ = this.operationTypeService.data$;
-                this.operationRooms$ = this.operationRoomService.data$;
-                this.patients$ = this.patientService.data$;
-                this.teamMembers$ = this.teamMemberService.data$;
+  constructor(
+    private operationService: OperationSevice,
+    private operationTypeService: OperationTypeService,
+    private operationRoomService: OperationRoomSevice,
+    private patientService: PatientSevice,
+    private teamMemberService: TeamMemberSevice
+  ) {
+    this.operations$ = this.operationService.data$;
+    this.operationTypes$ = this.operationTypeService.data$;
+    this.operationRooms$ = this.operationRoomService.data$;
+    this.patients$ = this.patientService.data$;
+    this.teamMembers$ = this.teamMemberService.data$;
   }
-  
+
   combined$!: Observable<[any[], any[], any[], any[]]>;
 
   ngOnInit() {
-
     this.reloadOperations();
     this.operationTypeService.refreshData();
     this.operationRoomService.refreshData();
@@ -48,15 +48,20 @@ export class OperationComponent implements OnInit {
 
     //init form
     this.operationForm = new FormGroup<any>({
-      'operationType': new FormControl(null, [Validators.required]),
-      'operationRoom': new FormControl(null, [Validators.required]),
-      'patient': new FormControl(null, [Validators.required]),
-      'teamMembers': new FormControl(null, [Validators.required]),
-      'state': new FormControl(null, [Validators.required]),
-      'startDate': new FormControl(null, [Validators.required]),
+      operationType: new FormControl(null, [Validators.required]),
+      operationRoom: new FormControl(null, [Validators.required]),
+      patient: new FormControl(null, [Validators.required]),
+      teamMembers: new FormControl(null, [Validators.required]),
+      state: new FormControl(null, [Validators.required]),
+      startDate: new FormControl(null, [Validators.required]),
     });
 
-    this.combined$ = combineLatest([this.operationTypes$, this.operationRooms$, this.patients$, this.teamMembers$]);
+    this.combined$ = combineLatest([
+      this.operationTypes$,
+      this.operationRooms$,
+      this.patients$,
+      this.teamMembers$,
+    ]);
   }
 
   reloadOperations() {
@@ -64,7 +69,6 @@ export class OperationComponent implements OnInit {
   }
 
   openModal(operation: any) {
-
     this.editedOperation = operation;
 
     let operationType = '';
@@ -75,53 +79,50 @@ export class OperationComponent implements OnInit {
     let startDate = '';
 
     if (operation) {
-
       this.modalTitle = 'edit';
 
       operationType = operation.operationType.name;
       operationRoom = operation.operationRoom.id;
       patient = operation.patient.id;
-      teamMembers = operation.teamMembers.map((obj:any) => obj.id);
+      teamMembers = operation.teamMembers.map((obj: any) => obj.id);
       state = operation.state;
       startDate = operation.startDate;
     }
 
     this.operationForm.patchValue({
-      'operationType': operationType,
-      'operationRoom': operationRoom,
-      'patient': patient,
-      'teamMembers': teamMembers,
-      'state': state,
-      'startDate': startDate,
-    })
-
+      operationType: operationType,
+      operationRoom: operationRoom,
+      patient: patient,
+      teamMembers: teamMembers,
+      state: state,
+      startDate: startDate,
+    });
   }
 
   onSubmit() {
-
     let operationType;
-    this.operationTypes$.subscribe(data => {
-      let id:any = this.operationForm.value.operationType;
-      operationType = data.find(obj => String(id) === String(obj.name))
-    })
+    this.operationTypes$.subscribe((data) => {
+      let id: any = this.operationForm.value.operationType;
+      operationType = data.find((obj) => String(id) === String(obj.name));
+    });
 
     let operationRoom;
-    this.operationRooms$.subscribe(data => {
-      let id:any = this.operationForm.value.operationRoom;
-      operationRoom = data.find(obj => String(id) === String(obj.id))
-    })
+    this.operationRooms$.subscribe((data) => {
+      let id: any = this.operationForm.value.operationRoom;
+      operationRoom = data.find((obj) => String(id) === String(obj.id));
+    });
 
     let patient;
-    this.patients$.subscribe(data => {
-      let id:any = this.operationForm.value.patient;
-      patient = data.find(obj => String(id) === String(obj.id))
-    })
+    this.patients$.subscribe((data) => {
+      let id: any = this.operationForm.value.patient;
+      patient = data.find((obj) => String(id) === String(obj.id));
+    });
 
     let teamMembers;
-    this.teamMembers$.subscribe(data => {
-      let ids:any[] = this.operationForm.value.teamMembers;
-      teamMembers = data.filter(obj => ids.includes(obj.id))
-    })
+    this.teamMembers$.subscribe((data) => {
+      let ids: any[] = this.operationForm.value.teamMembers;
+      teamMembers = data.filter((obj) => ids.includes(obj.id));
+    });
 
     let bodyObj = {
       operationType: operationType,
@@ -129,19 +130,21 @@ export class OperationComponent implements OnInit {
       patient: patient,
       teamMembers: teamMembers,
       state: this.operationForm.value.state,
-      startDate: this.operationForm.value.startDate
+      startDate: this.operationForm.value.startDate,
     };
 
     if (this.editedOperation) {
-      this.operationService.putOperation(this.editedOperation.id, bodyObj).subscribe({
-        next: this.handlePutResponse.bind(this),
-        error: this.handleError.bind(this)
-      })
+      this.operationService
+        .putOperation(this.editedOperation.id, bodyObj)
+        .subscribe({
+          next: this.handlePutResponse.bind(this),
+          error: this.handleError.bind(this),
+        });
     } else {
       this.operationService.postOperation(bodyObj).subscribe({
         next: this.handlePostResponse.bind(this),
-        error: this.handleError.bind(this)
-      })
+        error: this.handleError.bind(this),
+      });
     }
 
     setTimeout(() => {
@@ -149,25 +152,21 @@ export class OperationComponent implements OnInit {
     }, 500);
   }
 
-  onDeleteOperation(id:string) {
-
+  onDeleteOperation(id: string) {
     this.operationService.deleteOperation(id).subscribe({
       next: this.handleDeleteResponse.bind(this),
-      error: error => this.handleError.bind(error)
-    })
+      error: (error) => this.handleError.bind(error),
+    });
 
     setTimeout(() => {
       this.reloadOperations();
     }, 500);
   }
 
-  handlePostResponse(obj:any) {
-    console.log(obj)
+  handlePostResponse(obj: any) {
+    console.log(obj);
   }
-  handlePutResponse(){}
-  handleDeleteResponse(){}
-  handleError() {
-
-  }
-
+  handlePutResponse() {}
+  handleDeleteResponse() {}
+  handleError() {}
 }

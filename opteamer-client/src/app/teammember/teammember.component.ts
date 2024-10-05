@@ -1,20 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { TeamMemberSevice } from "../services/teammember.sevice";
-import { OperationProviderSevice } from "../services/operationprovider.sevice";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { TeamMemberSevice } from '../services/teammember.sevice';
+import { OperationProviderSevice } from '../services/operationprovider.sevice';
+import { Observable } from 'rxjs';
+import { TeamMember } from './teammember';
+import { OperationProvider } from '../operation/operationprovider';
 
 @Component({
   selector: 'app-teammember',
   templateUrl: './teammember.component.html',
-  styleUrls: ['../app.component.css'] 
+  styleUrls: ['../app.component.css'],
 })
 export class TeammemberComponent implements OnInit {
-
   teamMemberForm!: FormGroup;
-  editedTeamMember: any;
+  editedTeamMember: TeamMember | null = null;
   modalTitle!: string;
-  teamMembers$: any;  
-  operationProviders$: any;
+  teamMembers$: Observable<TeamMember[]>;
+  operationProviders$: Observable<OperationProvider[]>;
 
   constructor(
     private teamMemberService: TeamMemberSevice,
@@ -27,9 +29,9 @@ export class TeammemberComponent implements OnInit {
   ngOnInit() {
     this.reloadTeamMembers();
     this.operationProviderService.refreshData();
-    this.teamMemberForm = new FormGroup<any>({
-      'name': new FormControl(null, [Validators.required]),
-      'op': new FormControl(null, [Validators.required]),
+    this.teamMemberForm = new FormGroup({
+      name: new FormControl(null, [Validators.required]),
+      op: new FormControl(null, [Validators.required]),
     });
   }
 
@@ -37,11 +39,11 @@ export class TeammemberComponent implements OnInit {
     this.teamMemberService.refreshData();
   }
 
-  openModal(teamMember: any) {
+  openModal(teamMember: TeamMember | null) {
     this.editedTeamMember = teamMember;
 
     let name = '';
-    let opType;
+    let opType: string | undefined;
 
     this.modalTitle = 'create';
 
@@ -52,23 +54,32 @@ export class TeammemberComponent implements OnInit {
     }
 
     this.teamMemberForm.patchValue({
-      'name': name,
-      'op': opType
+      name: name,
+      op: opType,
     });
   }
 
   onSubmit() {
     if (this.editedTeamMember) {
-      this.teamMemberService.putTeamMember(this.editedTeamMember.id,
-        { name: this.teamMemberForm.value.name, operationProvider: { type: this.teamMemberForm.value.op } }).subscribe({
+      this.teamMemberService
+        .putTeamMember(this.editedTeamMember.id, {
+          name: this.teamMemberForm.value.name,
+          operationProvider: { type: this.teamMemberForm.value.op },
+        })
+        .subscribe({
           next: this.handlePutResponse.bind(this),
-          error: this.handleError.bind(this)
+          error: this.handleError.bind(this),
         });
     } else {
-      this.teamMemberService.postTeamMember({ name: this.teamMemberForm.value.name, operationProvider: { type: this.teamMemberForm.value.op } }).subscribe({
-        next: this.handlePostResponse.bind(this),
-        error: this.handleError.bind(this)
-      });
+      this.teamMemberService
+        .postTeamMember({
+          name: this.teamMemberForm.value.name,
+          operationProvider: { type: this.teamMemberForm.value.op },
+        })
+        .subscribe({
+          next: this.handlePostResponse.bind(this),
+          error: this.handleError.bind(this),
+        });
     }
 
     setTimeout(() => {
@@ -79,7 +90,7 @@ export class TeammemberComponent implements OnInit {
   onDeleteTeamMember(id: string) {
     this.teamMemberService.deleteTeamMember(id).subscribe({
       next: this.handleDeleteResponse.bind(this),
-      error: this.handleError.bind(this)
+      error: this.handleError.bind(this),
     });
     setTimeout(() => {
       this.reloadTeamMembers();
@@ -90,4 +101,4 @@ export class TeammemberComponent implements OnInit {
   handlePutResponse() {}
   handleDeleteResponse() {}
   handleError() {}
-}Error()
+}

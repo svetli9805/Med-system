@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {BehaviorSubject, map, Observable, switchMap} from "rxjs";
-import {PatientSevice} from "../services/patient.sevice";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject, map, Observable, switchMap } from "rxjs";
+import { PatientSevice } from "../services/patient.sevice";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 
 @Component({
@@ -11,14 +11,15 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class PatientsComponent implements OnInit {
 
-  patientForm: FormGroup;
-  editedPatient:any;
-  modalTitle: string;
+  patientForm!: FormGroup;
+  editedPatient: any;
+  modalTitle!: string;
+  patients$: Observable<any[]>;
 
   constructor(private patientService: PatientSevice) {
+    this.patients$ = this.patientService.data$;
   }
 
-  patients$ = this.patientService.data$;
 
   ngOnInit() {
     this.reloadPatients();
@@ -55,12 +56,12 @@ export class PatientsComponent implements OnInit {
 
     if (this.editedPatient) {
       this.patientService.putPatient(this.editedPatient.id,
-        {name: this.patientForm.value.name, nin: this.patientForm.value.nin}).subscribe({
-        next: this.handlePutResponse.bind(this),
-        error: this.handleError.bind(this)
-      })
+        { name: this.patientForm.value.name, nin: this.patientForm.value.nin }).subscribe({
+          next: this.handlePutResponse.bind(this),
+          error: this.handleError.bind(this)
+        })
     } else {
-      this.patientService.postPatient({name: this.patientForm.value.name, nin: this.patientForm.value.nin}).subscribe({
+      this.patientService.postPatient({ name: this.patientForm.value.name, nin: this.patientForm.value.nin }).subscribe({
         next: this.handlePostResponse.bind(this),
         error: this.handleError.bind(this)
       })
@@ -71,7 +72,7 @@ export class PatientsComponent implements OnInit {
     }, 500);
   }
 
-  onDeletePatient(id:string) {
+  onDeletePatient(id: string) {
     this.patientService.deletePatient(id).subscribe({
       next: this.handleDeleteResponse.bind(this),
       error: this.handleError.bind(this)
@@ -81,9 +82,9 @@ export class PatientsComponent implements OnInit {
     }, 500);
   }
 
-  handlePostResponse(){}
-  handlePutResponse(){}
-  handleDeleteResponse(){}
-  handleError(){}
+  handlePostResponse() { }
+  handlePutResponse() { }
+  handleDeleteResponse() { }
+  handleError() { }
 
 }
